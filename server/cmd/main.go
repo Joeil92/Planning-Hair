@@ -16,6 +16,6 @@ func main() {
 		return
 	}
 
-	router.Router(gin, db)
+	router.Router(gin)
 	gin.Run(":8000")
 }

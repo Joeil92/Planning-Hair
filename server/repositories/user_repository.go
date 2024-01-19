@@ -16,8 +16,17 @@ func NewUserRepository(db *sql.DB) models.UserRepository {
 	return &userRepository{db: db}
 }
 
-func (r *userRepository) Create() {
+func (r *userRepository) Create(c context.Context, user *models.User) error {
+	var queryStr string = `INSERT INTO user(email, password, firstname, lastname) VALUES(?, ?, ?, ?)`
 
+	rows, err := r.db.Query(queryStr, user.Email, user.Password, user.Firstname, user.Lastname)
+	if err != nil {
+		fmt.Println("Error querying data:", err)
+		return err
+	}
+	defer rows.Close()
+
+	return nil
 }
 
 func (r *userRepository) GetByEmail(c context.Context, email string) (models.User, error) {
@@ -31,9 +40,13 @@ func (r *userRepository) GetByEmail(c context.Context, email string) (models.Use
 	}
 	defer rows.Close()
 
-	err = rows.Scan(&user.Id, &user.Email, &user.Password, &user.Firstname, &user.Lastname)
-	if err != nil {
-		return user, err
+	if rows.Next() {
+		err = rows.Scan(&user.Id, &user.Email, &user.Password, &user.Firstname, &user.Lastname, &user.CreatedAt)
+		if err != nil {
+			return user, err
+		}
+	} else {
+		return user, sql.ErrNoRows
 	}
 
 	return user, nil

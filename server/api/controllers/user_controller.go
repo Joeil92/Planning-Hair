@@ -4,7 +4,9 @@ import (
 	"net/http"
 
 	"github.com/Joeil92/Planning-Hair/models"
+	"github.com/Joeil92/Planning-Hair/services"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserController struct {
@@ -25,5 +27,35 @@ func (uc *UserController) Create(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, models.SuccessResponse{Message: "ok"})
+	encryptedPassword, err := bcrypt.GenerateFromPassword(
+		[]byte(request.Password),
+		bcrypt.DefaultCost,
+	)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	request.Password = string(encryptedPassword)
+
+	user := models.User{
+		Email:     request.Email,
+		Password:  request.Password,
+		Firstname: request.Firstname,
+		Lastname:  request.Lastname,
+	}
+
+	err = uc.UserUseCase.Create(c, &user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	accessToken, err := services.CreateAccessToken(&user, "kfjkvnklnvjke")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, accessToken)
 }

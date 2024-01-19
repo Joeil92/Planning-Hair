@@ -14,8 +14,8 @@ func NewUserUsecase(repository models.UserRepository) models.UserUsecase {
 	return &userUseCase{UserRepository: repository}
 }
 
-func (u *userUseCase) Create() {
-
+func (u *userUseCase) Create(c context.Context, user *models.User) error {
+	return u.UserRepository.Create(c, user)
 }
 
 func (u *userUseCase) GetByEmail(c context.Context, email string) (models.User, error) {

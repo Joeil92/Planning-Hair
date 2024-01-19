@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 
+	"github.com/Joeil92/Planning-Hair/config"
 	"github.com/Joeil92/Planning-Hair/models"
 	"github.com/Joeil92/Planning-Hair/services"
 	"github.com/gin-gonic/gin"
@@ -51,7 +52,7 @@ func (uc *UserController) Create(c *gin.Context) {
 		return
 	}
 
-	accessToken, err := services.CreateAccessToken(&user, "kfjkvnklnvjke")
+	accessToken, err := services.CreateAccessToken(&user, config.JWT_SECRET)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse{Message: err.Error()})
 		return

@@ -6,14 +6,18 @@ import (
 	"github.com/Joeil92/Planning-Hair/models"
 )
 
-type UserUseCase struct {
-	userRepository models.UserRepository
+type userUseCase struct {
+	UserRepository models.UserRepository
 }
 
-func (uu *UserUseCase) Create() {
+func NewUserUsecase(repository models.UserRepository) models.UserUsecase {
+	return &userUseCase{UserRepository: repository}
+}
+
+func (u *userUseCase) Create() {
 
 }
 
-func (uu *UserUseCase) GetByEmail(c context.Context, email string) (models.User, error) {
-	return uu.userRepository.GetByEmail(c, email)
+func (u *userUseCase) GetByEmail(c context.Context, email string) (models.User, error) {
+	return u.UserRepository.GetByEmail(c, email)
 }

@@ -8,7 +8,7 @@ import (
 )
 
 type UserController struct {
-	userUseCase models.UserUsecase
+	UserUseCase models.UserUsecase
 }
 
 func (uc *UserController) Create(c *gin.Context) {
@@ -19,9 +19,10 @@ func (uc *UserController) Create(c *gin.Context) {
 		return
 	}
 
-	_, err := uc.userUseCase.GetByEmail(c, request.Email)
+	_, err := uc.UserUseCase.GetByEmail(c, request.Email)
 	if err == nil {
 		c.JSON(http.StatusConflict, models.ErrorResponse{Message: "User already exists with the given email"})
+		return
 	}
 
 	c.JSON(http.StatusOK, models.SuccessResponse{Message: "ok"})

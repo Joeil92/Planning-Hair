@@ -3,19 +3,20 @@ package main
 import (
 	"fmt"
 
-	router "github.com/Joeil92/Planning-Hair/api/routes"
-	"github.com/Joeil92/Planning-Hair/config"
+	"github.com/Joeil92/Planning-Hair/api/routes"
+	"github.com/Joeil92/Planning-Hair/pkg"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	gin := gin.Default()
-	db, err := config.ConnectDB()
+	db, err := pkg.InitDB()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+	defer db.Close()
 
-	router.Router(gin)
+	routes.Router(gin, db)
 	gin.Run(":8000")
 }

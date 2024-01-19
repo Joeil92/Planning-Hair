@@ -10,7 +10,7 @@ import (
 func Router(gin *gin.Engine, db *sql.DB) {
 	publicRouter := gin.Group("/api")
 	// PUBLIC APIs
-	NewLoginRouter(publicRouter, db)
+	NewAuthRouter(publicRouter, db)
 	NewUserRouter(publicRouter, db)
 
 	protectedRouter := gin.Group("/api")

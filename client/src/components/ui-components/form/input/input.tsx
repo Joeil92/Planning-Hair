@@ -14,7 +14,7 @@ interface Props {
 export default function Input({ name, type = "text", label, defaultValue, placeholder, required = false, control }: Props) {
     return (
         <Controller
-            render={(field) => (
+            render={({ field }) => (
                 <Container className="my-3">
                     {
                         label
@@ -34,7 +34,6 @@ export default function Input({ name, type = "text", label, defaultValue, placeh
                 </Container>
             )}
             name={name}
-            defaultValue={defaultValue}
             control={control}
             rules={{ required: required }}
         />

@@ -1,5 +1,7 @@
-import { Control, Controller } from "react-hook-form"
+import { Control, Controller, FieldError } from "react-hook-form"
 import Container from "../../container/container"
+import { error } from "console"
+import Typography from "../../typography/typography"
 
 interface Props {
     name: string
@@ -9,9 +11,10 @@ interface Props {
     placeholder?: string
     required?: boolean
     control: Control<any>
+    errors: FieldError | undefined
 }
 
-export default function Input({ name, type = "text", label, defaultValue, placeholder, required = false, control }: Props) {
+export default function Input({ name, type = "text", label, defaultValue, placeholder, required = false, control, errors }: Props) {
     return (
         <Controller
             render={({ field }) => (
@@ -28,12 +31,16 @@ export default function Input({ name, type = "text", label, defaultValue, placeh
                         {...field}
                         type={type}
                         id={name}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${errors ? "border-red-500" : ""}`}
                         placeholder={placeholder}
                     />
+                    {
+                        errors?.type === "required" && <Typography className="text-red-500 text-xs">Ce champ est obligatoire</Typography>
+                    }
                 </Container>
             )}
             name={name}
+            defaultValue={defaultValue}
             control={control}
             rules={{ required: required }}
         />

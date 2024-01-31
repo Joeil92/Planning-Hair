@@ -44,6 +44,7 @@ func (uc *UserController) Create(c *gin.Context) {
 		Password:  request.Password,
 		Firstname: request.Firstname,
 		Lastname:  request.Lastname,
+		Role: request.Role,
 	}
 
 	err = uc.UserUseCase.Create(c, &user)

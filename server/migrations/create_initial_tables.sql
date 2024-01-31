@@ -11,16 +11,31 @@ CREATE TABLE IF NOT EXISTS user (
     password VARCHAR(255) NOT NULL,
     firstname VARCHAR(20) NOT NULL,
     lastname VARCHAR(20) NOT NULL,
-    created_at DATETIME default CURRENT_TIMESTAMP
+    role ENUM('client', 'owner') NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS user_company (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id INT(11) NOT NULL,
     company_id INT(11) NOT NULL,
-    role ENUM('client', 'employé', 'administrateur'),
+    role ENUM('client', 'employee', 'administrator'),
     CONSTRAINT fk_user_company_user
         FOREIGN KEY (user_id) REFERENCES user (id),
     CONSTRAINT fk_user_company_company
         FOREIGN KEY (company_id) REFERENCES company (id)
 );
+
+CREATE TABLE IF NOT EXISTS category (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description longtext,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO category (id, name, description) VALUES
+(1, "Coiffeur", NULL),
+(2, "Barbier", NULL),
+(3, "Manucure", NULL),
+(4, "Institut de beauté", NULL),
+(5, "Spa", NULL);

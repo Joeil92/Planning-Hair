@@ -10,7 +10,7 @@ interface LoginFormInputs {
 }
 
 export default function LoginForm() {
-    const { handleSubmit, control } = useForm<LoginFormInputs>({
+    const { handleSubmit, control, formState: { errors } } = useForm<LoginFormInputs>({
         defaultValues: {
             email: "",
             password: ""
@@ -25,18 +25,20 @@ export default function LoginForm() {
         <form onSubmit={handleSubmit(onSubmit)}>
             <Input
                 name="email"
-                label="Email *"
+                label="Email"
                 placeholder="Email"
                 control={control}
                 required={true}
+                errors={errors.email}
             />
             <Input 
                 type="password"
                 name="password"
-                label="Mot de passe *"
+                label="Mot de passe"
                 placeholder="Mot de passe"
                 control={control}
                 required={true}
+                errors={errors.password}
             />
             <Container className="text-center">
                 <Submit value="Se connecter" />

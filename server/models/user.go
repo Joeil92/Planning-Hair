@@ -8,7 +8,8 @@ type User struct {
 	Password  string `form:"user" json:"password" binding:"required"`
 	Firstname string `form:"firstname" json:"firstname" binding:"required"`
 	Lastname  string `form:"lastname" json:"lastname" binding:"required"`
-	CreatedAt string 
+	Role      string `form:"role" json:"role" binding:"required"`
+	CreatedAt string
 }
 
 type UserUsecase interface {

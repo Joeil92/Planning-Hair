@@ -1,10 +1,13 @@
 'use client'
 import Alert from "@PH/components/ui-components/alert/alert";
+import AlertObject from "@PH/components/ui-components/alert/alert.interface";
 import Container from "@PH/components/ui-components/container/container";
 import Input from "@PH/components/ui-components/form/input/input";
 import Radio from "@PH/components/ui-components/form/radio/radio";
 import Submit from "@PH/components/ui-components/form/submit/submit";
 import Typography from "@PH/components/ui-components/typography/typography";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface RegistrationFormInputs {
@@ -16,25 +19,58 @@ interface RegistrationFormInputs {
     role: 'client' | 'owner'
 }
 
-export default function RegistrationForm() {
+interface Props {
+    handleForm: React.Dispatch<React.SetStateAction<"register" | "company">>
+}
+
+export default function RegistrationForm({ handleForm }: Props) {
+    const [alert, setAlert] = useState<AlertObject>();
+    const router = useRouter();
     const { handleSubmit, control, setValue, watch, formState: { errors } } = useForm<RegistrationFormInputs>({
         defaultValues: {
-            email: "",
-            password: "",
-            plainPassword: "",
-            firstname: "",
-            lastname: "",
+            email: "test@mon-organisation.fr",
+            password: "test",
+            plainPassword: "test",
+            firstname: "John",
+            lastname: "Doe",
             role: "client"
         }
     });
     const watchRole = watch("role");
 
-    const onSubmit = (data: RegistrationFormInputs) => {
+    const onSubmit = async (data: RegistrationFormInputs) => {
+        if(data.password !== data.plainPassword) return setAlert({ type: 'danger', message: 'les mots de passe sont différents' })
+
+        try {
+            const res = await fetch('http://localhost:8000/api/users', {
+                method: 'POST',
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            const json = await res.json();
+    
+            if(!res.ok) throw json.message;
+
+            setAlert({ type: "success", message: json.message });
+
+            if(data.role === "client") {
+                router.push('/');
+            } else {
+                handleForm("company");
+            }
+        } catch (error) {
+            console.log(error);
+            setAlert({ type: 'danger', message: error as string })
+        }
+
         console.log(data);
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            {alert ? <Alert type={alert.type} message={alert.message} handleState={setAlert} /> : null}
             <Typography>Informations générales</Typography>
             <Input
                 name="email"

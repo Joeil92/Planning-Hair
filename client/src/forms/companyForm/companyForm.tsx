@@ -132,7 +132,12 @@ export default function CompanyForm() {
                 name="categories"
                 label="Catégories"
                 endpoint="categories"
+                optionValue="name"
+                placeholder="Selectionner une ou des catégories"
+                isMulti={true}
+                required={true}
                 control={control}
+                errors={errors.categories}
             />
             <Typography className="my-3">Jours et horaires d'ouverture</Typography>
             {days.map((day, index) => {

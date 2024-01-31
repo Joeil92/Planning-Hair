@@ -7,7 +7,7 @@ import { useState } from "react";
 import CompanyForm from "@PH/forms/companyForm/companyForm";
 
 export default function Page() {
-    const [formStep, setFormStep] = useState<"register" | "company">("company");
+    const [formStep, setFormStep] = useState<"register" | "company">("register");
 
     return (
         <Container className="h-screen flex">
@@ -16,7 +16,7 @@ export default function Page() {
                     {formStep === "register"
                         ? <>
                             <Typography tag="h1" className="text-center mb-16">Super, un nouveau membre !</Typography>
-                            <RegistrationForm />
+                            <RegistrationForm handleForm={setFormStep} />
                         </>
                         : <>
                             <Typography tag="h1" className="text-center">Présentez-nous votre entreprise !</Typography>

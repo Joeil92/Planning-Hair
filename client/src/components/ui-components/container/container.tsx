@@ -6,11 +6,13 @@ interface Props {
     onMouseEnter?: () => void
     onMouseLeave?: () => void
     style?: CSSProperties
+    suppressHydrationWarning?: boolean
 }
 
-export default function Container({ children, className = "", onMouseEnter, onMouseLeave, style = {}}: Props) {
+export default function Container({ children, className = "", onMouseEnter, onMouseLeave, style = {}, suppressHydrationWarning = false}: Props) {
     return (
-        <div 
+        <div
+            suppressHydrationWarning={suppressHydrationWarning}
             className={className} 
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}

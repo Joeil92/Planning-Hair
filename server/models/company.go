@@ -10,11 +10,9 @@ type Company struct {
 }
 
 type CompanyUsecase interface {
-	GetByEmail(c context.Context, email string) (Company, error)
 	Create(c context.Context, Company *Company) error
 }
 
 type CompanyRepository interface {
-	GetByEmail(c context.Context, email string) (Company, error)
 	Create(c context.Context, Company *Company) error
 }

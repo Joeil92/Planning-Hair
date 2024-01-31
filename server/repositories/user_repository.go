@@ -17,9 +17,9 @@ func NewUserRepository(db *sql.DB) models.UserRepository {
 }
 
 func (r *userRepository) Create(c context.Context, user *models.User) error {
-	var queryStr string = `INSERT INTO user(email, password, firstname, lastname, role) VALUES(?, ?, ?, ?, ?)`
+	var query string = `INSERT INTO user(email, password, firstname, lastname, role) VALUES(?, ?, ?, ?, ?)`
 
-	rows, err := r.db.Query(queryStr, user.Email, user.Password, user.Firstname, user.Lastname, user.Role)
+	rows, err := r.db.Query(query, user.Email, user.Password, user.Firstname, user.Lastname, user.Role)
 	if err != nil {
 		fmt.Println("Error querying data:", err)
 		return err

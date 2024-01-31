@@ -19,7 +19,8 @@ export default function Page() {
                             <RegistrationForm />
                         </>
                         : <>
-                            <Typography tag="h1" className="text-center mb-16">Quel est votre entreprise</Typography>
+                            <Typography tag="h1" className="text-center">Présentez-nous votre entreprise !</Typography>
+                            <Typography className="mb-16">Les informations pourront être changé ultérieurement</Typography>
                             <CompanyForm />
                         </>}
                 </Container>

@@ -1,3 +1,5 @@
 .rightContainer {
     content: url("../../assets/images/barber-login.jpg");
+    position: fixed;
+    margin-left: 50%;
 }

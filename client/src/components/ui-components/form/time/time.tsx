@@ -1,23 +1,26 @@
-import { Control, Controller, FieldError } from "react-hook-form"
-import Container from "../../container/container"
-import Typography from "../../typography/typography"
+import { Control, Controller, FieldError } from "react-hook-form";
+import Container from "../../container/container";
+import Typography from "../../typography/typography";
+import { ChangeEventHandler } from "react";
 
 interface Props {
     name: string
-    type?: "text" | "password" | "number"
     defaultValue?: string
     label?: string
-    placeholder?: string
+    onChange?: ChangeEventHandler<HTMLInputElement>
+    min?: string
+    max?: string
     required?: boolean
+    disabled?: boolean
     control: Control<any>
     errors: FieldError | undefined
 }
 
-export default function Input({ name, type = "text", label, defaultValue, placeholder, required = false, control, errors }: Props) {
+export default function Time({ name, defaultValue, label, onChange, min, max, required = false, disabled = false, control, errors }: Props) {
     return (
         <Controller
-            render={({ field }) => (
-                <Container className="my-3">
+            render={(({ field }) => (
+                <Container>
                     {
                         label
                             ? <label
@@ -28,16 +31,19 @@ export default function Input({ name, type = "text", label, defaultValue, placeh
                     }
                     <input
                         {...field}
-                        type={type}
+                        onChange={onChange || field.onChange}
+                        type="time"
+                        min={min}
+                        max={max}
                         id={name}
-                        className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${errors ? "border-red-500" : ""}`}
-                        placeholder={placeholder}
+                        className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 ${errors ? "border-red-500" : ""}`}
+                        disabled={disabled}
                     />
                     {
                         errors?.type === "required" && <Typography className="text-red-500 text-xs">Ce champ est obligatoire</Typography>
                     }
                 </Container>
-            )}
+            ))}
             name={name}
             defaultValue={defaultValue}
             control={control}

@@ -131,6 +131,7 @@ export default function CompanyForm() {
             <Entity 
                 name="categories"
                 label="Catégories"
+                endpoint="categories"
                 control={control}
             />
             <Typography className="my-3">Jours et horaires d'ouverture</Typography>

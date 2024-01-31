@@ -5,6 +5,7 @@ import (
 
 	"github.com/Joeil92/Planning-Hair/api/routes"
 	"github.com/Joeil92/Planning-Hair/pkg"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,6 +17,8 @@ func main() {
 		return
 	}
 	defer db.Close()
+
+	gin.Use(cors.Default())
 
 	routes.Router(gin, db)
 	gin.Run(":8000")

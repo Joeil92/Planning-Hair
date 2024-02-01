@@ -3,7 +3,8 @@ package models
 import "github.com/golang-jwt/jwt"
 
 type JwtCustomClaims struct {
-	Email string `json:"email"`
-	Id    string `json:"id"`
+	Id        string `json:"id"`
+	Email     string `json:"email"`
+	Firstname string `json:"firstname"`
 	jwt.StandardClaims
 }

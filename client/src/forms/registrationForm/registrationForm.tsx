@@ -6,6 +6,8 @@ import Input from "@PH/components/ui-components/form/input/input";
 import Radio from "@PH/components/ui-components/form/radio/radio";
 import Submit from "@PH/components/ui-components/form/submit/submit";
 import Typography from "@PH/components/ui-components/typography/typography";
+import { useAuth } from "@PH/hooks/useAuth";
+import { useLocalStorage } from "@PH/hooks/useLocalStorage";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -26,6 +28,8 @@ interface Props {
 export default function RegistrationForm({ handleForm }: Props) {
     const [alert, setAlert] = useState<AlertObject>();
     const router = useRouter();
+    const { login } = useAuth();
+    const { setItem } = useLocalStorage();
     const { handleSubmit, control, setValue, watch, formState: { errors } } = useForm<RegistrationFormInputs>({
         defaultValues: {
             email: "test@mon-organisation.fr",
@@ -49,11 +53,11 @@ export default function RegistrationForm({ handleForm }: Props) {
                 },
                 body: JSON.stringify(data)
             })
-            const json = await res.json();
+            const token = await res.json();
     
-            if(!res.ok) throw json.message;
+            if(!res.ok) throw token.message;
 
-            setAlert({ type: "success", message: json.message });
+            setItem("phToken", token);
 
             if(data.role === "client") {
                 router.push('/');

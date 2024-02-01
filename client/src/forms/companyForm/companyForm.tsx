@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form"
 
 interface CompanyFormInputs {
     name: string
+    address: string
     description: string
     categories: number[]
     working_days: string[]
@@ -120,6 +121,14 @@ export default function CompanyForm() {
                 required={true}
                 control={control}
                 errors={errors.name}
+            />
+            <Input 
+                name="address"
+                label="Adresse"
+                placeholder="Adresse"
+                required={true}
+                control={control}
+                errors={errors.address}
             />
             <Textarea
                 name="description"

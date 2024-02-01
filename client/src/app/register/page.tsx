@@ -7,7 +7,7 @@ import { useState } from "react";
 import CompanyForm from "@PH/forms/companyForm/companyForm";
 
 export default function Page() {
-    const [formStep, setFormStep] = useState<"register" | "company">("register");
+    const [formStep, setFormStep] = useState<"register" | "company">("company");
 
     return (
         <Container className="h-screen flex">
@@ -20,7 +20,7 @@ export default function Page() {
                         </>
                         : <>
                             <Typography tag="h1" className="text-center">Présentez-nous votre entreprise !</Typography>
-                            <Typography className="mb-16">Les informations pourront être changé ultérieurement</Typography>
+                            <Typography className="mb-16 text-center">Les informations pourront être changé ultérieurement</Typography>
                             <CompanyForm />
                         </>}
                 </Container>

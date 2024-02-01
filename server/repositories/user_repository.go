@@ -16,17 +16,22 @@ func NewUserRepository(db *sql.DB) models.UserRepository {
 	return &userRepository{db: db}
 }
 
-func (r *userRepository) Create(c context.Context, user *models.User) error {
+func (r *userRepository) Create(c context.Context, user *models.User) (int64, error) {
 	var query string = `INSERT INTO user(email, password, firstname, lastname, role) VALUES(?, ?, ?, ?, ?)`
 
-	rows, err := r.db.Query(query, user.Email, user.Password, user.Firstname, user.Lastname, user.Role)
+	insert, err := r.db.Exec(query, user.Email, user.Password, user.Firstname, user.Lastname, user.Role)
 	if err != nil {
 		fmt.Println("Error querying data:", err)
-		return err
+		return 0, err
 	}
-	defer rows.Close()
 
-	return nil
+	lastInsertId, err := insert.LastInsertId()
+	if err != nil {
+		fmt.Println("Error getting last insert ID:", err)
+		return 0, err
+	}
+
+	return lastInsertId, nil
 }
 
 func (r *userRepository) GetByEmail(c context.Context, email string) (models.User, error) {

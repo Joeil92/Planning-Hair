@@ -14,7 +14,7 @@ func NewCategoryUsecase(repository models.CategoryRepository) models.CategoryUse
 	return &categoryUseCase{CategoryRepository: repository}
 }
 
-func (cu *categoryUseCase) Create(c context.Context, category *models.Category) error {
+func (cu *categoryUseCase) Create(c context.Context, category *models.Category) (int64, error) {
 	return cu.CategoryRepository.Create(c, category)
 }
 

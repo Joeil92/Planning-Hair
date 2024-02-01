@@ -16,17 +16,22 @@ func NewCategoryRepository(db *sql.DB) models.CategoryRepository {
 	return &categoryRepository{db: db}
 }
 
-func (r *categoryRepository) Create(c context.Context, category *models.Category) error {
+func (r *categoryRepository) Create(c context.Context, category *models.Category) (int64, error) {
 	var query string = `INSERT INTO category(name, description) VALUES(?, ?)`
 
-	rows, err := r.db.Query(query, category.Name, category.Description)
+	insert, err := r.db.Exec(query, category.Name, category.Description)
 	if err != nil {
 		fmt.Println("Error querying data:", err)
-		return err
+		return 0, err
 	}
-	defer rows.Close()
 
-	return nil
+	lastInsertId, err := insert.LastInsertId()
+	if err != nil {
+		fmt.Println("Error getting last insert ID:", err)
+		return 0, err
+	}
+
+	return lastInsertId, nil
 }
 
 func (r *categoryRepository) FindAll(c context.Context) ([]models.Category, error) {

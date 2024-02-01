@@ -3,7 +3,7 @@ package models
 import "context"
 
 type Company struct {
-	Id          int
+	Id          int64
 	Name        string `form:"name" json:"name" binding:"required,name"`
 	Description string `form:"description" json:"description"`
 	Created_At  string `form:"created_at" json:"created_at" binding:"required"`

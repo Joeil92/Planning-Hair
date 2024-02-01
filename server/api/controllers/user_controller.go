@@ -44,14 +44,16 @@ func (uc *UserController) Create(c *gin.Context) {
 		Password:  request.Password,
 		Firstname: request.Firstname,
 		Lastname:  request.Lastname,
-		Role: request.Role,
+		Role:      request.Role,
 	}
 
-	err = uc.UserUseCase.Create(c, &user)
+	lastInsertId, err := uc.UserUseCase.Create(c, &user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse{Message: err.Error()})
 		return
 	}
+
+	user.Id = lastInsertId
 
 	accessToken, err := services.CreateAccessToken(&user, config.JWT_SECRET)
 	if err != nil {

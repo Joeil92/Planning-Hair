@@ -24,12 +24,14 @@ func (cc *CategoryController) Create(c *gin.Context) {
 		Description: request.Description,
 	}
 
-	err := cc.CategoryUseCase.Create(c, &category)
+	lastInsertId, err := cc.CategoryUseCase.Create(c, &category)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse{Message: err.Error()})
 	}
 
-	c.JSON(http.StatusOK, models.SuccessResponse{Message: "Category has been successfully created"})
+	category.Id = lastInsertId
+
+	c.JSON(http.StatusOK, models.SuccessResponse{Message: "Category has been successfully created", Data: category})
 }
 
 func (cc *CategoryController) FindAll(c *gin.Context) {

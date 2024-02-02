@@ -8,6 +8,7 @@ import Submit from "@PH/components/ui-components/form/submit/submit";
 import Textarea from "@PH/components/ui-components/form/textarea/textarea";
 import Time from "@PH/components/ui-components/form/time/time";
 import Typography from "@PH/components/ui-components/typography/typography";
+import { Category } from "@PH/types/category.interface";
 import DayTranslation from "@PH/utils/string/dayTranslation";
 import { useForm } from "react-hook-form"
 
@@ -15,7 +16,7 @@ interface CompanyFormInputs {
     name: string
     address: string
     description: string
-    categories: number[]
+    category: Category | null
     working_days: string[]
     working_hour_start_morning_monday: string | null
     working_hour_end_morning_monday: string | null
@@ -46,9 +47,10 @@ interface CompanyFormInputs {
 export default function CompanyForm() {
     const { handleSubmit, control, watch, getValues, setValue, formState: { errors } } = useForm<CompanyFormInputs>({
         defaultValues: {
-            name: "",
+            name: "Hair'Tic",
+            address: "27 Bis Rue du Progrès, 93100 Montreuil",
             description: "",
-            categories: [],
+            category: null,
             working_days: [
                 "monday",
                 "tuesday",
@@ -138,15 +140,14 @@ export default function CompanyForm() {
                 errors={errors.description}
             />
             <Entity 
-                name="categories"
-                label="Catégories"
+                name="category"
+                label="Catégorie"
                 endpoint="categories"
                 optionValue="name"
-                placeholder="Selectionner une ou des catégories"
-                isMulti={true}
+                placeholder="Selectionner une catégorie"
                 required={true}
                 control={control}
-                errors={errors.categories}
+                errors={errors.category}
             />
             <Typography className="my-3">Jours et horaires d'ouverture</Typography>
             {days.map((day, index) => {

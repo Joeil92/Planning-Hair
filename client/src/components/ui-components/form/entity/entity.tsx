@@ -6,7 +6,7 @@ import Typography from "../../typography/typography";
 
 interface Props {
     name: string
-    label: string
+    label?: string
     placeholder?: string
     endpoint: string
     optionValue: string

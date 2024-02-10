@@ -101,7 +101,7 @@ export default function CompanyForm() {
     }
 
     const onSubmit = (data: CompanyFormInputs) => {
-        console.log(data);
+        console.log(JSON.stringify(data));
     }
 
     const days = [
@@ -163,22 +163,26 @@ export default function CompanyForm() {
                             value={dayTranslation}
                             control={control}
                         />
-                        <FlexContainer className="my-3" gap={4}>
-                            <Time
-                                name={`working_hour_start_morning_${dayTranslation}`}
-                                control={control}
-                                disabled={!watchWorkingDays.includes(dayTranslation)}
-                                errors={undefined}
-                            />
-                            <Time
-                                name={`working_hour_end_morning_${dayTranslation}`}
-                                control={control}
-                                disabled={!watchWorkingDays.includes(dayTranslation)}
-                                errors={undefined}
-                            />
+                        <FlexContainer items="center" justify="between" className="my-3">
                             <Typography>Matin</Typography>
+                            <FlexContainer items="center" justify="between" gap={4}>
+                                <Time
+                                    name={`working_hour_start_morning_${dayTranslation}`}
+                                    control={control}
+                                    disabled={!watchWorkingDays.includes(dayTranslation)}
+                                    errors={undefined}
+                                />
+                                <Time
+                                    name={`working_hour_end_morning_${dayTranslation}`}
+                                    control={control}
+                                    disabled={!watchWorkingDays.includes(dayTranslation)}
+                                    errors={undefined}
+                                />
+                            </FlexContainer>
                         </FlexContainer>
-                        <FlexContainer gap={4}>
+                        <FlexContainer items="center" justify="between">
+                            <Typography className="">Après-midi</Typography>
+                            <FlexContainer items="center" justify="between" gap={4}>
                             <Time
                                 name={`working_hour_start_afternoon_${dayTranslation}`}
                                 control={control}
@@ -191,7 +195,7 @@ export default function CompanyForm() {
                                 disabled={!watchWorkingDays.includes(dayTranslation)}
                                 errors={undefined}
                             />
-                            <Typography>Après-midi</Typography>
+                            </FlexContainer>
                         </FlexContainer>
                     </Container>
                 )

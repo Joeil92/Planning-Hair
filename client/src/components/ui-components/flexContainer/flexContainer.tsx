@@ -5,7 +5,7 @@ interface Props {
     className?: string
     gap?: number
     items: 'center' | 'top' | 'bottom'
-    justify: 'center' | 'start' | 'end'
+    justify: 'between' | 'around' | 'start' | 'end'
 }
 
 export default function FlexContainer({ children, className = "", gap, items, justify }: Props) {

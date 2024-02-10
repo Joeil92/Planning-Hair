@@ -17,4 +17,5 @@ func Router(gin *gin.Engine, db *sql.DB) {
 	protectedRouter.Use(middlewares.AuthMiddleware())
 	// PRIVATE APIs
 	NewCategoryRouter(protectedRouter, db)
+	NewCompanyRouter(protectedRouter, db)
 }

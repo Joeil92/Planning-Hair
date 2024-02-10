@@ -1,10 +1,7 @@
 'use client'
 import Navbar from "@PH/components/navbar/navbar";
 import Typography from "@PH/components/ui-components/typography/typography";
-import { AuthContext } from "@PH/providers/authProvider";
 import SearchForm from "@PH/forms/searchForm/searchForm";
-import { useAuth } from "@PH/hooks/useAuth";
-import { useContext } from "react";
 
 export default function Home() {
   return (

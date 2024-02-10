@@ -3,6 +3,7 @@ package repositories
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 
 	"github.com/Joeil92/Planning-Hair/models"
@@ -57,6 +58,11 @@ func (r *userRepository) GetByEmail(c context.Context, email string) (*models.Us
 	if err := rows.Err(); err != nil {
 		fmt.Println("Error after scanning rows:", err)
 		return nil, err
+	}
+
+	if len(users) == 0 {
+		message := fmt.Sprintf("No user found with email: %s", email)
+		return nil, errors.New(message)
 	}
 
 	return &users[0], nil

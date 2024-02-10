@@ -1,9 +1,11 @@
+import { authContext } from "@PH/providers/authProvider"
+import { useContext } from "react"
+
 export default function Navbar() {
+    const { auth } = useContext(authContext);
 
     const routes = [
-        {label: 'Accueil', pathname: '/'},
-        {label: 'Se connecter', pathname: '/login'},
-        {label: 'S\'inscrire', pathname: '/register'}
+        { label: 'Accueil', pathname: '/' },
     ]
 
     return (
@@ -25,6 +27,18 @@ export default function Navbar() {
                                 <a href={route.pathname} className="block py-2 px-3 hover:bg-gray-100 md:hover:bg-transparent md:p-0 hover:border-b-2 border-black">{route.label}</a>
                             </li>
                         ))}
+                        {
+                            !auth.isAuthenticated
+                                ? <>
+                                    <li>
+                                        <a href="/login" className="block py-2 px-3 hover:bg-gray-100 md:hover:bg-transparent md:p-0 hover:border-b-2 border-black">Se connecter</a>
+                                    </li>
+                                    <li>
+                                        <a href="/register" className="block py-2 px-3 hover:bg-gray-100 md:hover:bg-transparent md:p-0 hover:border-b-2 border-black">S'inscrire</a>
+                                    </li>                                    
+                                </>
+                                : null
+                        }                        
                     </ul>
                 </div>
             </div>

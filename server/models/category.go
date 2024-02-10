@@ -6,7 +6,7 @@ type Category struct {
 	Id          int64   `form:"id" json:"id"`
 	Name        string  `form:"name" json:"name" binding:"required"`
 	Description *string `form:"description" json:"description"`
-	CreatedAt   string
+	Created_at  string
 }
 
 type CategoryUsecase interface {

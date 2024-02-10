@@ -7,7 +7,7 @@ import { useState } from "react";
 import CompanyForm from "@PH/forms/companyForm/companyForm";
 
 export default function Page() {
-    const [formStep, setFormStep] = useState<"register" | "company">("company");
+    const [formStep, setFormStep] = useState<"register" | "company">("register");
 
     return (
         <Container className="h-screen flex">

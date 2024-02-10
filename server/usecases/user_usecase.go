@@ -18,6 +18,6 @@ func (u *userUseCase) Create(c context.Context, user *models.User) (int64, error
 	return u.UserRepository.Create(c, user)
 }
 
-func (u *userUseCase) GetByEmail(c context.Context, email string) (models.User, error) {
+func (u *userUseCase) GetByEmail(c context.Context, email string) (*models.User, error) {
 	return u.UserRepository.GetByEmail(c, email)
 }

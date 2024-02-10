@@ -6,7 +6,6 @@ import LoginForm from "@PH/forms/loginForm/loginForm";
 import Button from "@PH/components/ui-components/button/button";
 import { useRouter } from "next/navigation";
 
-
 export default function Page() {
     const router = useRouter();
 

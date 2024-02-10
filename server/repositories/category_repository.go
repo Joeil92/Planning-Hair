@@ -47,7 +47,7 @@ func (r *categoryRepository) FindAll(c context.Context) ([]models.Category, erro
 
 	for rows.Next() {
 		var category models.Category
-		if err := rows.Scan(&category.Id, &category.Name, &category.Description, &category.CreatedAt); err != nil {
+		if err := rows.Scan(&category.Id, &category.Name, &category.Description, &category.Created_at); err != nil {
 			fmt.Println("Error scanning row:", err)
 			return nil, err
 		}

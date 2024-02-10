@@ -8,8 +8,11 @@ import Submit from "@PH/components/ui-components/form/submit/submit";
 import Textarea from "@PH/components/ui-components/form/textarea/textarea";
 import Time from "@PH/components/ui-components/form/time/time";
 import Typography from "@PH/components/ui-components/typography/typography";
+import { AuthContext } from "@PH/providers/authProvider";
+import { useUser } from "@PH/hooks/useUser";
 import { Category } from "@PH/types/category.interface";
 import DayTranslation from "@PH/utils/string/dayTranslation";
+import { useContext } from "react";
 import { useForm } from "react-hook-form"
 
 interface CompanyFormInputs {
@@ -45,6 +48,7 @@ interface CompanyFormInputs {
 }
 
 export default function CompanyForm() {
+    const { user } = useUser();
     const { handleSubmit, control, watch, getValues, setValue, formState: { errors } } = useForm<CompanyFormInputs>({
         defaultValues: {
             name: "Hair'Tic",
@@ -101,7 +105,9 @@ export default function CompanyForm() {
     }
 
     const onSubmit = (data: CompanyFormInputs) => {
-        console.log(JSON.stringify(data));
+        console.log(user);
+        
+        console.log(data);
     }
 
     const days = [

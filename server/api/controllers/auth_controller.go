@@ -34,7 +34,7 @@ func (ac *AuthController) Auth(c *gin.Context) {
 		return
 	}
 
-	accessToken, err := services.CreateAccessToken(&user, config.JWT_SECRET)
+	accessToken, err := services.CreateAccessToken(user, config.JWT_SECRET)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse{Message: err.Error()})
 		return

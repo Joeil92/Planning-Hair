@@ -35,7 +35,7 @@ type Company struct {
 	Working_hour_end_morning_saturday      string   `form:"working_hour_end_morning_saturday" json:"working_hour_end_end_morning_saturday"`
 	Working_hour_start_afternoon_saturday  string   `form:"working_hour_start_afternoon_saturday" json:"working_hour_start_afternoon_saturday"`
 	Working_hour_end_afternoon_saturday    string   `form:"working_hour_end_afternoon_saturday" json:"working_hour_end_afternoon_saturday"`
-	Created_At                             string
+	Created_at                             string
 }
 
 type CompanyUsecase interface {

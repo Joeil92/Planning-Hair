@@ -34,25 +34,30 @@ func (r *userRepository) Create(c context.Context, user *models.User) (int64, er
 	return lastInsertId, nil
 }
 
-func (r *userRepository) GetByEmail(c context.Context, email string) (models.User, error) {
+func (r *userRepository) GetByEmail(c context.Context, email string) (*models.User, error) {
 	var queryStr string = `SELECT * FROM user WHERE email = ?`
-	var user models.User
+	var users []models.User
 
 	rows, err := r.db.Query(queryStr, email)
 	if err != nil {
 		fmt.Println("Error querying data:", err)
-		return user, err
+		return nil, err
 	}
 	defer rows.Close()
 
-	if rows.Next() {
-		err = rows.Scan(&user.Id, &user.Email, &user.Password, &user.Firstname, &user.Lastname, &user.CreatedAt)
-		if err != nil {
-			return user, err
+	for rows.Next() {
+		var user models.User
+		if err := rows.Scan(&user.Id, &user.Email, &user.Password, &user.Firstname, &user.Lastname, &user.Role, &user.Created_at); err != nil {
+			fmt.Println("Error scanning row:", err)
+			return nil, err
 		}
-	} else {
-		return user, sql.ErrNoRows
+		users = append(users, user)
 	}
 
-	return user, nil
+	if err := rows.Err(); err != nil {
+		fmt.Println("Error after scanning rows:", err)
+		return nil, err
+	}
+
+	return &users[0], nil
 }

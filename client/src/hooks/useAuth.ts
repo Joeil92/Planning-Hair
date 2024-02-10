@@ -1,35 +1,35 @@
-import { useEffect } from "react";
-import { useUser } from "./useUser";
-import { useLocalStorage } from "./useLocalStorage";
-import { User } from "@PH/types/user.interface";
-import jwt from 'jsonwebtoken';
+// 'use client'
+// import { useEffect } from "react";
+// import { useUser } from "./useUser";
+// import { useLocalStorage } from "./useLocalStorage";
+// import { User } from "@PH/types/user.interface";
+// import jwt from 'jsonwebtoken';
 
-export const useAuth = () => {
-    const { user, addUser, removeUser } = useUser();
-    const { getItem } = useLocalStorage();
+// export const useAuth = () => {
+//     const { user, addUser, removeUser } = useUser();
+//     const { getItem } = useLocalStorage();
 
-    useEffect(() => {
-        const token = getItem("phToken");
+//     useEffect(() => {
+//         const token = getItem("phToken");
 
-        if (token) {
-            const user = decodeJWT(token) as User;
-            addUser(user);
-        }
-    }, []);
+//         if (token) login(token);
+//     }, []);
 
-    const decodeJWT = (token: string) => {
-        const decodedUser = jwt.verify(token, "kfjkvnklnvjke");
+//     const decodeJWT = (token: string) => {
+//         const decodedUser = jwt.verify(token, "kfjkvnklnvjke");
 
-        return decodedUser;
-    }
+//         return decodedUser;
+//     }
 
-    const login = (user: User) => {
-        addUser(user);
-    };
+//     const login = (token: string) => {
+//         const user = decodeJWT(token) as User;
 
-    const logout = () => {
-        removeUser();
-    };
+//         addUser(user);
+//     };
 
-    return { user, login, logout };
-};
+//     const logout = () => {
+//         removeUser();
+//     };
+
+//     return { user, login, decodeJWT, logout };
+// };

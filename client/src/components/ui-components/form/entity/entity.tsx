@@ -50,7 +50,7 @@ export default function Entity({ name, label, placeholder, endpoint, optionValue
                     <Select
                         {...field}
                         placeholder={placeholder}
-                        onChange={field.onChange}
+                        onChange={(e) => field.onChange(e.id)}
                         getOptionLabel={(option) => option[optionValue]}
                         getOptionValue={(option) => option.id}
                         options={options}

@@ -123,3 +123,21 @@ func (r *CompanyRepository) Create(c context.Context, company *models.Company) (
 
 	return lastInsertId, nil
 }
+
+func (r *CompanyRepository) AddUserCompany(c context.Context, userId int64, companyId int64) (int64, error) {
+	var queryStr = "INSERT INTO user_company(user_id, company_id, role) VALUES (LAST_INSERT_ID(), LAST_INSERT_ID(), ?)"
+
+	insert, err := r.db.Exec(queryStr, "administrator")
+	if err != nil {
+		fmt.Println("Error querying data:", err)
+		return 0, err
+	}
+
+	lastInsertId, err := insert.LastInsertId()
+	if err != nil {
+		fmt.Println("Error getting last insert ID:", err)
+		return 0, err
+	}
+
+	return lastInsertId, nil
+}

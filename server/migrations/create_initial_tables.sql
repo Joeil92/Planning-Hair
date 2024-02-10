@@ -1,3 +1,5 @@
+SET GLOBAL FOREIGN_KEY_CHECKS=0;
+
 CREATE TABLE IF NOT EXISTS user (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -57,9 +59,13 @@ CREATE TABLE IF NOT EXISTS user_company (
     company_id INT(11) NOT NULL,
     role ENUM('client', 'employee', 'administrator'),
     CONSTRAINT fk_user_company_user
-        FOREIGN KEY (user_id) REFERENCES user (id),
+        FOREIGN KEY (user_id) REFERENCES user (id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
     CONSTRAINT fk_user_company_company
         FOREIGN KEY (company_id) REFERENCES company (id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
 );
 
 INSERT INTO category (id, name, description) VALUES

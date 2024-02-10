@@ -11,6 +11,7 @@ import Typography from "@PH/components/ui-components/typography/typography";
 import { authContext } from "@PH/providers/authProvider";
 import { Category } from "@PH/types/category.interface";
 import DayTranslation from "@PH/utils/string/dayTranslation";
+import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { useForm } from "react-hook-form"
 
@@ -43,10 +44,12 @@ interface CompanyFormInputs {
     working_hour_start_morning_saturday: string | null
     working_hour_end_morning_saturday: string | null
     working_hour_start_afternoon_saturday: string | null
-    working_hour_end_afternoon_saturday: string | null                  
+    working_hour_end_afternoon_saturday: string | null
+    user: number | undefined              
 }
 
 export default function CompanyForm() {
+    const router = useRouter();
     const { auth } = useContext(authContext);
     const { handleSubmit, control, watch, getValues, setValue, formState: { errors } } = useForm<CompanyFormInputs>({
         defaultValues: {
@@ -84,7 +87,8 @@ export default function CompanyForm() {
             working_hour_start_morning_saturday: "", 
             working_hour_end_morning_saturday: "", 
             working_hour_start_afternoon_saturday: "", 
-            working_hour_end_afternoon_saturday: "",    
+            working_hour_end_afternoon_saturday: "",
+            user: auth.user?.id  
         }
     });
     const watchWorkingDays = watch("working_days");
@@ -103,10 +107,27 @@ export default function CompanyForm() {
         setValue("working_days", days);
     }
 
-    const onSubmit = (data: CompanyFormInputs) => {
-        console.log(auth);
-        
-        console.log(data);
+    const onSubmit = async (data: CompanyFormInputs) => {
+        data.user = auth.user?.id
+
+        try {
+            const res = await fetch('http://localhost:8000/api/companies', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            const json = await res.json();
+            console.log(json);
+            
+            if(!res.ok) throw json.message
+
+            router.push(`/company/${json.data.Id}`)
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const days = [

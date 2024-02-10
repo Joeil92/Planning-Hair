@@ -17,3 +17,7 @@ func NewCompanyUsecase(repository models.CompanyRepository) models.CompanyUsecas
 func (cu *companyUseCase) Create(c context.Context, company *models.Company) (int64, error) {
 	return cu.CompanyRepository.Create(c, company)
 }
+
+func (cu *companyUseCase) AddUserCompany(c context.Context, userId int64, companyId int64) (int64, error) {
+	return cu.CompanyRepository.AddUserCompany(c, userId, companyId)
+}

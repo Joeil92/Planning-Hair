@@ -12,20 +12,13 @@ export interface User {
     id: number
     email: string
     roles: Array<string>
-    stakeholder: {
-        id: number
-    }
-}
-
-interface DecodedUser {
-    user: User
     exp: number
     iat: number
 }
 
 export interface AuthState {
     isAuthenticated: boolean
-    user: DecodedUser | null
+    user: User | null
 }
 
 interface AuthContext {
@@ -57,7 +50,7 @@ export function AuthProvider({ children }: Props) {
 
     const signin = (token: string) => {
         setItem("phToken", token);
-        let decodedToken = jwt.verify(token, "kfjkvnklnvjke") as DecodedUser;
+        let decodedToken = jwt.verify(token, "kfjkvnklnvjke") as User;
 
         if(Date.now() >= decodedToken.exp * 1000) return signout();
         

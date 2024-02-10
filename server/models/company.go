@@ -35,13 +35,16 @@ type Company struct {
 	Working_hour_end_morning_saturday      string   `form:"working_hour_end_morning_saturday" json:"working_hour_end_end_morning_saturday"`
 	Working_hour_start_afternoon_saturday  string   `form:"working_hour_start_afternoon_saturday" json:"working_hour_start_afternoon_saturday"`
 	Working_hour_end_afternoon_saturday    string   `form:"working_hour_end_afternoon_saturday" json:"working_hour_end_afternoon_saturday"`
+	User                                   int64    `json:"user"`
 	Created_at                             string
 }
 
 type CompanyUsecase interface {
 	Create(c context.Context, Company *Company) (int64, error)
+	AddUserCompany(c context.Context, userId int64, companyId int64) (int64, error)
 }
 
 type CompanyRepository interface {
 	Create(c context.Context, Company *Company) (int64, error)
+	AddUserCompany(c context.Context, userId int64, companyId int64) (int64, error)
 }

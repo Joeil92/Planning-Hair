@@ -59,5 +59,11 @@ func (uc *CompanyController) Create(c *gin.Context) {
 
 	company.Id = lastInsertId
 
+	_, err = uc.CompanyUseCase.AddUserCompany(c, company.User, company.Id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.ErrorResponse{Message: err.Error()})
+		return
+	}
+
 	c.JSON(http.StatusOK, models.SuccessResponse{Message: "Company has been successfully created", Data: company})
 }

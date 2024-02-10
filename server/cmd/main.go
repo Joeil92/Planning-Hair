@@ -20,6 +20,8 @@ func main() {
 
 	gin.Use(cors.Default())
 
+	gin.SetTrustedProxies(nil)
+
 	routes.Router(gin, db)
 	gin.Run(":8000")
 }

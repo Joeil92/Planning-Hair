@@ -50,7 +50,7 @@ func (r *CompanyRepository) Create(c context.Context, company *models.Company) (
 		description,
 		address,
 		working_days,
-		category_id,
+		company_id,
 		working_hour_start_morning_monday,
 		working_hour_end_morning_monday,
 		working_hour_start_afternoon_monday,
@@ -84,7 +84,7 @@ func (r *CompanyRepository) Create(c context.Context, company *models.Company) (
 		company.Description,
 		company.Address,
 		string(workingDaysJSON),
-		company.Category,
+		company.company,
 		parseTime(company.Working_hour_start_morning_monday),
 		parseTime(company.Working_hour_end_morning_monday),
 		parseTime(company.Working_hour_start_afternoon_monday),
@@ -140,4 +140,32 @@ func (r *CompanyRepository) AddUserCompany(c context.Context, userId int64, comp
 	}
 
 	return lastInsertId, nil
+}
+
+func (r *CompanyRepository) FindAll(c context.Context) ([]models.company, error) {
+	var query = `SELECT * FROM company`
+	var categories []models.company
+
+	rows, err := r.db.Query(query)
+	if err != nil {
+		fmt.Println("Error querying data:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var company models.company
+		if err := rows.Scan(&company.Id, &company.Name, &company.Description, &company.Created_at); err != nil {
+			fmt.Println("Error scanning row:", err)
+			return nil, err
+		}
+		categories = append(categories, company)
+	}
+
+	if err := rows.Err(); err != nil {
+		fmt.Println("Error after scanning rows:", err)
+		return nil, err
+	}
+
+	return categories, nil
 }

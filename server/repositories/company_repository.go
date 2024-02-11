@@ -83,8 +83,8 @@ func (r *CompanyRepository) Create(c context.Context, company *models.Company) (
 		company.Name,
 		company.Description,
 		company.Address,
+		company.Id,
 		string(workingDaysJSON),
-		company.company,
 		parseTime(company.Working_hour_start_morning_monday),
 		parseTime(company.Working_hour_end_morning_monday),
 		parseTime(company.Working_hour_start_afternoon_monday),
@@ -142,9 +142,9 @@ func (r *CompanyRepository) AddUserCompany(c context.Context, userId int64, comp
 	return lastInsertId, nil
 }
 
-func (r *CompanyRepository) FindAll(c context.Context) ([]models.company, error) {
+func (r *CompanyRepository) FindAll(c context.Context) ([]models.Company, error) {
 	var query = `SELECT * FROM company`
-	var categories []models.company
+	var categories []models.Company
 
 	rows, err := r.db.Query(query)
 	if err != nil {
@@ -154,7 +154,7 @@ func (r *CompanyRepository) FindAll(c context.Context) ([]models.company, error)
 	defer rows.Close()
 
 	for rows.Next() {
-		var company models.company
+		var company models.Company
 		if err := rows.Scan(&company.Id, &company.Name, &company.Description, &company.Created_at); err != nil {
 			fmt.Println("Error scanning row:", err)
 			return nil, err

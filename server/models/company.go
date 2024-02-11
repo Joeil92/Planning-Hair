@@ -42,9 +42,11 @@ type Company struct {
 type CompanyUsecase interface {
 	Create(c context.Context, Company *Company) (int64, error)
 	AddUserCompany(c context.Context, userId int64, companyId int64) (int64, error)
+	FindAll(c context.Context) ([]Company, error)
 }
 
 type CompanyRepository interface {
 	Create(c context.Context, Company *Company) (int64, error)
 	AddUserCompany(c context.Context, userId int64, companyId int64) (int64, error)
+	FindAll(c context.Context) ([]Company, error)
 }

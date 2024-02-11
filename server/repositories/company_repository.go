@@ -16,12 +16,12 @@ type CompanyRepository struct {
 	db *sql.DB
 }
 
-func parseTime(timeStr string) *string {
-	if timeStr == "" {
+func parseTime(timeStr *string) *string {
+	if timeStr == nil {
 		return nil
 	}
 
-	parsedTime, err := time.Parse("15:04", timeStr)
+	parsedTime, err := time.Parse("15:04", *timeStr)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -140,4 +140,73 @@ func (r *CompanyRepository) AddUserCompany(c context.Context, userId int64, comp
 	}
 
 	return lastInsertId, nil
+}
+
+func (r *CompanyRepository) FindById(c context.Context, companyId string) (*models.Company, error) {
+	var queryStr = "SELECT * FROM company WHERE id = ?"
+	var company models.Company
+	var workingDaysJSON sql.NullString
+
+	rows, err := r.db.Query(queryStr, companyId)
+	if err != nil {
+		fmt.Println("Error querying data:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		if err := rows.Scan(
+			&company.Id,
+			&company.Name,
+			&company.Description,
+			&company.Address,
+			&workingDaysJSON,
+			&company.Category,
+			&company.Working_hour_start_morning_monday,
+			&company.Working_hour_end_morning_monday,
+			&company.Working_hour_start_afternoon_monday,
+			&company.Working_hour_end_afternoon_monday,
+			&company.Working_hour_start_morning_tuesday,
+			&company.Working_hour_end_morning_tuesday,
+			&company.Working_hour_start_afternoon_tuesday,
+			&company.Working_hour_end_afternoon_tuesday,
+			&company.Working_hour_start_morning_wednesday,
+			&company.Working_hour_end_morning_wednesday,
+			&company.Working_hour_start_afternoon_wednesday,
+			&company.Working_hour_end_afternoon_wednesday,
+			&company.Working_hour_start_morning_thursday,
+			&company.Working_hour_end_morning_thursday,
+			&company.Working_hour_start_afternoon_thursday,
+			&company.Working_hour_end_afternoon_thursday,
+			&company.Working_hour_start_morning_friday,
+			&company.Working_hour_end_morning_friday,
+			&company.Working_hour_start_afternoon_friday,
+			&company.Working_hour_end_afternoon_friday,
+			&company.Working_hour_start_morning_saturday,
+			&company.Working_hour_end_morning_saturday,
+			&company.Working_hour_start_afternoon_saturday,
+			&company.Working_hour_end_afternoon_saturday,
+			&company.Created_at,
+		); err != nil {
+			fmt.Println("Error scanning row:", err)
+			return nil, err
+		}
+	}
+
+	if workingDaysJSON.Valid {
+		var workingDays []string
+		err := json.Unmarshal([]byte(workingDaysJSON.String), &workingDays)
+		if err != nil {
+			fmt.Println("Erreur lors du désérialisation du JSON des jours ouvrables :", err)
+			return nil, err
+		}
+		company.Working_days = workingDays
+	}
+
+	if err := rows.Err(); err != nil {
+		fmt.Println("Error after scanning rows:", err)
+		return nil, err
+	}
+
+	return &company, nil
 }

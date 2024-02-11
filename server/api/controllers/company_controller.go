@@ -67,3 +67,15 @@ func (uc *CompanyController) Create(c *gin.Context) {
 
 	c.JSON(http.StatusOK, models.SuccessResponse{Message: "Company has been successfully created", Data: company})
 }
+
+func (uc *CompanyController) FindById(c *gin.Context) {
+	companyId := c.Param("companyId")
+
+	company, err := uc.CompanyUseCase.FindById(c, companyId)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, company)
+}

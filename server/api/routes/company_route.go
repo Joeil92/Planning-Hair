@@ -16,4 +16,5 @@ func NewCompanyRouter(group *gin.RouterGroup, db *sql.DB) {
 	}
 
 	group.POST("/companies", controller.Create)
+	group.GET("/companies/:companyId", controller.FindById)
 }

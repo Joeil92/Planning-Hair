@@ -1,5 +1,5 @@
 'use client'
-import Navbar from "@PH/components/navbar/navbar";
+import Navbar from "@PH/components/components/navbar/navbar";
 import Typography from "@PH/components/ui-components/typography/typography";
 import SearchForm from "@PH/forms/searchForm/searchForm";
 

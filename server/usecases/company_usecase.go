@@ -21,3 +21,7 @@ func (cu *companyUseCase) Create(c context.Context, company *models.Company) (in
 func (cu *companyUseCase) AddUserCompany(c context.Context, userId int64, companyId int64) (int64, error) {
 	return cu.CompanyRepository.AddUserCompany(c, userId, companyId)
 }
+
+func (cu *companyUseCase) FindById(c context.Context, companyId string) (*models.Company, error) {
+	return cu.CompanyRepository.FindById(c, companyId)
+}
